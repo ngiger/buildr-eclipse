@@ -1,0 +1,61 @@
+Under git://git.eclipse.org/gitroot/tycho/org.eclipse.tycho-demo.git you find a demo of the Tycho build system for Eclipse.
+
+h1. Aim
+
+Eclipse is notorious for being be difficult to build projects via the command line. The so called "headless build" have made me (Niklaus Giger) loose to many hours.
+
+Therefore I decided to look for a simple, easy to use system and I hope that using "Apache Buildr":http//buildr.apache.org I can make a headless build of an Eclipse application as simple like this.
+
+bq. buildr --generate /path/to/project
+cd  /path/to/project
+buildr osgi:clean:dependencies osgi:resolve:dependencies osgi:install:dependencies
+buildr
+
+And it would be even better if the osgi is integrated and not necessary any more.
+
+A lot of the proposals here come from the lessons learned how to port a real Eclipse based RCP application from a custom ant script into a new project "elexis-bootstrap":https://bitbucket.org/ngiger/elexis-bootstrap based on Apache Buildr.
+
+h1. Obstacles
+
+* javadoc
+** should generate javadoc in all sub-project and put the output into the top/target/doc/javadocs
+
+* buildr4osgi
+** integrate into buildr? (Would be a lot simpler)
+** use Java class org.osgi.framework.Version (instead of buildr4osgi). Drawback: would not support any other ruby than jruby
+    Why? buildr4osgi does not catch these illegal values (when trying to build a p2site with Eclipse Helios)
+    # 2.1.6alpha.20120928
+    # 2.1.6a.20120928
+    # 2.1.6.alpha.20120928
+    # 2.1.7-20120929
+
+* izpack (improve upon "buildrizpack":https://github.com/ngiger/buildrizpack. See also  "Doc":http://ngiger.dyndns.org/jenkins/job/buildrizpack/lastSuccessfulBuild/artifact/rdoc/README_rdoc.html)
+** integrate
+** howto handle EclipseP2 applications
+
+* Eclipse target definitions
+** detect them via finding the corresponding *.target definitions
+** translate a sub.project/demo.target into a task root:sub.project:demo.target
+   (e.g. ./itp04-rcp/target-definition/helios.target)
+
+* Eclipse applications
+** must probably be defined/detected via a corresponding *.product file
+** translate a sub.project/demo.product into a task root:sub.project:demo.product
+   (e.g. ./itp03-crossplatform/org.tycho.demo.crossplatform.rcp/org.tycho.demo.crossplatform.rcp.product
+    and  ./itp04-rcp/eclipse-repository/example.product)
+** howto write unit tests (even the smallest elexis builds with just a handful projects take 2 minutes)
+** Clean-up the mess in buildfile.project!
+
+* JUnit test should be run in all sub-directories and output placed into the top target/doc/junit
+
+* PDE tests test should be run in all sub-directories and output placed into the top target/doc/junit
+** PDE tests probably can only be correctly detected and run when a corresponding *.launch is found
+
+* defining meaningfull and not too long lasting rspecs for all the stuff above!
+
+h1. Progress
+
+* Apache Buildr 1.4.8 will support a very limited recognition of "Eclipse workspaces":https://issues.apache.org/jira/browse/BUILDR-652. (as of Oct. 2 2012)
+* Elexis-Bootstrap will be used for the upcoming Elexis version 2.1.7 (as of Oct. 2 2012)
+
+Help/comment/critics are always welcomed by the author Niklaus Giger (niklaus.giger@member.fsf.org)
