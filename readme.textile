@@ -28,7 +28,9 @@ h1. Obstacles
     # 2.1.6a.20120928
     # 2.1.6.alpha.20120928
     # 2.1.7-20120929
-
+** MANIFEST.MF with local.jar as first entry produce errors. Fix lib/buildr4osgi/osgi/packaging.jar (line 280)
+   If an eclipse plugin nature use entry == '.'.
+    
 * izpack (improve upon "buildrizpack":https://github.com/ngiger/buildrizpack. See also  "Doc":http://ngiger.dyndns.org/jenkins/job/buildrizpack/lastSuccessfulBuild/artifact/rdoc/README_rdoc.html)
 ** integrate
 ** howto handle EclipseP2 applications
@@ -52,6 +54,8 @@ h1. Obstacles
 ** PDE tests probably can only be correctly detected and run when a corresponding *.launch is found
 
 * defining meaningfull and not too long lasting rspecs for all the stuff above!
+
+* Building is slow. Parsing the everything takes often 5 or more minutes.
 
 h1. Progress
 
